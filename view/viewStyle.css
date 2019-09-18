@@ -1,0 +1,59 @@
+
+
+body {
+    font-size: 17px;
+    line-height: 1.5em;
+    color: red;
+    max-width: 1200px;
+    margin: auto;
+    font-family: 'Sarabun', sans-serif;
+    text-align: center;
+}
+
+
+.topbar {
+    padding-bottom: 40px;
+}
+
+h1.topbar {
+    margin-bottom: 0;
+}
+
+.dropdownMenu {
+    float: right;
+}
+.productGrid {
+    width: 90%;
+    margin: 0 5% 0 5%;
+}
+
+.products {
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    justify-content: space-evenly;
+}
+
+.product img {
+    width: 50%;
+    padding: 3%;
+}
+
+.products p {
+    font-weight: 600;
+    font-size:1.2em;
+}
+
+.product {
+    flex:33%;
+    background-color: #000000bc;
+    max-width:33%;
+    margin: 1px;
+    padding: 20px 0 20px 0;
+    transition:transform 1s;
+}
+
+.product:hover {
+    transform: scale(1.2);
+}
+

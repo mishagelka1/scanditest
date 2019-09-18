@@ -1,0 +1,36 @@
+#choose {
+    font-size: 5em;
+    text-align: center;
+    margin: 0%;
+    margin-top: 1%;
+}
+
+.pageContent {
+    height: 85%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons {
+   /* border-style: dotted; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 70%;
+    width: 100%;
+}
+
+.buttons form {
+    margin: 3%;
+    width: 40%;
+}
+
+.button {
+    font-size: 3.5em;
+    margin: 2%;
+    width: 100%;
+    height: 60%;
+}
