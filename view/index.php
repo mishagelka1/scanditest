@@ -13,7 +13,7 @@
         <div class="topbar">
             <h1>Product List</h1>
             <div class="dropdownMenu">
-                <button onclick="callDropdown()" class="dropbtn">Choose an action</button>
+                <!--  <button onclick="callDropdown()" class="dropbtn">Choose an action</button> -->
                 <button>Apply</button>
                 <div id="dropdown">
                     

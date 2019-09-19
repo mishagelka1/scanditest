@@ -6,32 +6,33 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="addStyle.css">
+        <!--script src="..jquery.js"></script-->
+        <script src="./script.js"></script>
     </head>
     <body>
         <div class="pageContent">
             <div class="topbar">
                 <h1>Product add</h1>
-                <button id="applyBtn" type="submit">Apply</button>
-                <hr>
             </div>
 
-            <form class="addForm" action="">
-                SKU 
-                <input type="text" name="sku" placeholder="SKU">
-                Name 
-                <input type="text" name="name" placeholder="Name">
-                Price
-                <input type="text" name="price" placeholder="Price">
+            <form id="form" class="addForm" action="validate.php"/>
+                <p>SKU</p> 
+                <input oninput="handleInput(this)" class="attr" type="text" name="sku" placeholder="SKU">
+                <p>Name</p> 
+                <input oninput="handleInput(this)" class="attr" type="text" name="name" placeholder="Name">
+                <p>Price</p>
+                <input oninput="handleInput(this)" class="attr" type="text" name="price" placeholder="Price">
 
-                Type switcher
-                <select name="productType" id="switch">
+                <p>Type switcher</p>
+                <select oninput="handleInput(this)" class="attr" name="productType" id="switch">
                     <option style="display:none"></option>
                     <option value="DVD">DVD</option>
                     <option value="Book">Book</option>
                     <option value="Furniture">Furniture</option>
+
                 </select>
-                <button type="submit">Submit</button>
             </form>
+            <button onClick="submit()" id="applyBtn">Apply</button>
         </div>
     </body>
 </html>
