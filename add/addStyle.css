@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Cute+Font&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
 
 html {
-    font-family: 'Cute Font', cursive;
+    font-family: 'Roboto Mono', monospace;
     background-color: white;
 }
 

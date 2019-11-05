@@ -18,10 +18,13 @@
             <form id="form" method="POST" class="addForm" action="./validate.php">
                 <p>SKU</p> 
                 <input class="attr" type="text" name="sku" placeholder="SKU">
+                <div id="skumistake"></div>
                 <p>Name</p> 
                 <input class="attr" type="text" name="name" placeholder="Name">
+                <div id="namemistake"></div>
                 <p>Price</p>
                 <input class="attr" type="text" name="price" placeholder="Price">
+                <div id="pricemistake"></div>
 
                 <p>Type switcher</p>
                 <select onchange="dynamicChange()" class="attr" name="productType" id="switch">

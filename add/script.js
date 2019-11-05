@@ -14,6 +14,8 @@
  var bookUp = false;
  var furnitureUp = false;
 
+var exc = <?php echo json_encode($val_out, JSON_HEX_TAG); ?>; 
+
  function dvdBoxUp() { // function to display dvd inputbox
     dvdUp = true;
     var dvdInput = document.getElementById("form");
@@ -143,6 +145,12 @@
  }
 
 // End of experiment
+if( exc != null) {
+    var form = document.getElementById("form");
+    var exceptionMes = document.createElement("p");
+    exceptionMes.innerText = exc;
+    form.appendChild(exceptionMes);
+}
 
 function submit() {
     var price = document.getElementsByName("price")[0];
@@ -150,7 +158,6 @@ function submit() {
     var correct = true;
 
     var text_elem = document.getElementsByClassName("attr");
-    //console.log(text_elem);
     for (let i = 0; i < text_elem.length; i++) {
         if (text_elem[i].value == "") {
             text_elem[i].style.backgroundColor = "Coral";
@@ -178,12 +185,7 @@ function submit() {
             correct = false;
         }
     }
-    else { // HOW TO HANDLE THIS? THERE MUST BE AN ELEGANT WAY! IT IS  NOT WORKING((((
-      /*  var dimens = [document.getElementsByName("h")[0], document.getElementsByName("w")[0], document.getElementsByName("l")[0]];
-        if(isNaN(dimens.values)) {
-            dimens.style.backgroundColor = "pink";
-            correct = false;
-        } */
+    else { 
         var hbox = document.getElementsByName("h")[0];
         var wbox = document.getElementsByName("w")[0];
         var lbox = document.getElementsByName("l")[0];
@@ -225,5 +227,5 @@ function submit() {
     }
 
     var form = document.getElementById("form");
-    form.submit();
+    form.submit(); 
 }
