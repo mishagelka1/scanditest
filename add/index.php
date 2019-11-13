@@ -16,15 +16,12 @@
             </div>
 
             <form id="form" method="POST" class="addForm" action="./validate.php">
-                <p>SKU</p> 
+                <p>SKU (must be exactly 8 numbers long)</p> 
                 <input class="attr" type="text" name="sku" placeholder="SKU">
-                <div id="skumistake"></div>
-                <p>Name</p> 
+                <p>Name (must contain only letters)</p> 
                 <input class="attr" type="text" name="name" placeholder="Name">
-                <div id="namemistake"></div>
-                <p>Price</p>
+                <p>Price (can contain only 2 numbers after comma)</p>
                 <input class="attr" type="text" name="price" placeholder="Price">
-                <div id="pricemistake"></div>
 
                 <p>Type switcher</p>
                 <select onchange="dynamicChange()" class="attr" name="productType" id="switch">

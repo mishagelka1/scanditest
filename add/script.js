@@ -14,7 +14,6 @@
  var bookUp = false;
  var furnitureUp = false;
 
-var exc = <?php echo json_encode($val_out, JSON_HEX_TAG); ?>; 
 
  function dvdBoxUp() { // function to display dvd inputbox
     dvdUp = true;
@@ -145,12 +144,6 @@ var exc = <?php echo json_encode($val_out, JSON_HEX_TAG); ?>;
  }
 
 // End of experiment
-if( exc != null) {
-    var form = document.getElementById("form");
-    var exceptionMes = document.createElement("p");
-    exceptionMes.innerText = exc;
-    form.appendChild(exceptionMes);
-}
 
 function submit() {
     var price = document.getElementsByName("price")[0];

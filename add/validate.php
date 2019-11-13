@@ -130,6 +130,7 @@ class Item {
         }
 
         echo " Done";
+        require 'inserted.php';
     }
 
 }
@@ -187,9 +188,24 @@ function validate() {
     } catch (sku\characterAmount | sku\correctSymbols | name\characterAmount | name\correctSymbols | price\correctSymbols | productType\isEmpty | size\correctSymbols | weight\correctSymbols | dims\correctSymbols $e) {
         require 'index.php';
         $val_out = $e->errorMessage();
-      //  echo htmlspecialchars($val_out);
+        echo htmlspecialchars($val_out);
         die();
     }
+    $db = new mysqli('localhost', 'root', '', 'scanditest') 
+    or die('U fail!');
+
+    $skuChecker = "SELECT sku FROM products";
+    $existingSku = $db->query($skuChecker);
+    if ($existingSku->num_rows > 0) {
+        while($row = $existingSku->fetch_assoc()) {
+            if($_POST["sku"] == $row["sku"]) {
+                require 'index.php';
+                echo "Whoops, this sku already is occupied!";
+                die();
+            }
+        }
+    } 
+    $db->close();
 }
 
 function beautify() {
