@@ -129,6 +129,7 @@ class Item {
             echo "U inserted a furniture attr! ";
         }
 
+
         echo " Done";
         require 'inserted.php';
     }
@@ -141,7 +142,7 @@ class dvd extends Item {
         parent::__construct($i_sku, $i_name, $i_price);
         $this->size = $i_size;
         $this->type = 'D'; 
-        $this->secondary_query = "INSERT INTO dvd_attr (sku, size) VALUES (?, ?)";
+        $this->secondary_query = "INSERT INTO dvd_attr (sku_d, size) VALUES (?, ?)";
     }
     function post() {
         parent::post();
@@ -154,7 +155,7 @@ class book extends Item {
         parent::__construct($i_sku, $i_name, $i_price);
         $this->weight = $i_weight;
         $this->type = 'B';
-        $this->secondary_query = "INSERT INTO book_attr (sku, weight) VALUES (?, ?)";
+        $this->secondary_query = "INSERT INTO book_attr (sku_b, weight) VALUES (?, ?)";
     }
     function post() {
         parent::post();
@@ -169,7 +170,7 @@ class furniture extends Item {
         $this->w = $i_w;
         $this->l = $i_l;
         $this->type = 'F';
-        $this->secondary_query = "INSERT INTO furniture_attr (sku, h, w, l) VALUES (?, ?, ?, ?)";
+        $this->secondary_query = "INSERT INTO furniture_attr (sku_f, h, w, l) VALUES (?, ?, ?, ?)";
     }
     function post() {
         parent::post();
@@ -184,7 +185,7 @@ function validate() {
         Validator::productType($_POST["productType"]);
         if ($_POST["productType"] == "dvd") Validator::size($_POST["size"]);
         if ($_POST["productType"] == "book") Validator::weight($_POST["weight"]);
-        if ($_POST["productType"] == "furniture") Validator::dims($_POST["dims"]);
+       // if ($_POST["productType"] == "furniture") Validator::dims($_POST["dims"]); might correct later
     } catch (sku\characterAmount | sku\correctSymbols | name\characterAmount | name\correctSymbols | price\correctSymbols | productType\isEmpty | size\correctSymbols | weight\correctSymbols | dims\correctSymbols $e) {
         require 'index.php';
         $val_out = $e->errorMessage();

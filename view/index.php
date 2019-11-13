@@ -2,6 +2,7 @@
 
 $db = new mysqli('localhost', 'root', '', 'scanditest')
 or die("Fekd up");
+
  
 class Item {
     protected $sku, $name, $price, $type;
@@ -12,7 +13,7 @@ class Item {
     }
 
     function print() {
-        echo "Sku: " . $sku . "<br>" . "Name: " . $name . "<br>" . "Price: " . $price . "<br>";
+        echo "Sku: " . $this->sku . "<br>" . "Name: " . $this->name . "<br>" . "Price: " . $this->price . "<br>";
     }
 }
 
@@ -26,7 +27,7 @@ class dvd extends Item {
 
     function print() {
         parent::print();
-        echo "Size: " . $size;
+        echo "Size: " . $this->size;
     }
 }
 
@@ -40,7 +41,7 @@ class book extends Item {
 
     function print() {
         parent::print();
-        echo "Weight: " . $weight;
+        echo "Weight: " . $this->weight;
     }
 }
 
@@ -56,14 +57,14 @@ class furniture extends Item {
 
     function print() {
         parent::print();
-        echo "Dimensions: " . $h . "x" . $w . "x" . $l;
+        echo "Dimensions: " . $this->h . "x" . $this->w . "x" . $this->l;
     }
 }
 
 $selectAll = "SELECT products.*, dvd_attr.*, book_attr.*, furniture_attr.* FROM products
-LEFT OUTER JOIN dvd_attr ON products.sku = dvd_attr.sku
-LEFT OUTER JOIN book_attr ON products.sku = book_attr.sku
-LEFT OUTER JOIN furniture_attr ON products.sku = furniture_attr.sku";
+LEFT OUTER JOIN dvd_attr ON products.sku = dvd_attr.sku_d
+LEFT OUTER JOIN book_attr ON products.sku = book_attr.sku_b
+LEFT OUTER JOIN furniture_attr ON products.sku = furniture_attr.sku_f";
 
 $result=$db->query($selectAll);
 if ($result->num_rows >0) {
@@ -73,19 +74,37 @@ if ($result->num_rows >0) {
             case 'D':
                 unset($item);
                 $item = new dvd($row["sku"], $row["name"], $row["price"], $row["size"]);
+                ?>
+
+
+                <div class="product">
+
+                    <?php
+                    $item->print();
+                    ?>
+                </div>
                 $item->print();
+                echo "<br>";
+                echo "This is one of the objects!";
+                echo "<br> <br>";
                 break;
             
             case 'B':
                 unset($item);
                 $item = new book($row["sku"], $row["name"], $row["price"], $row["weight"]);
                 $item->print();
+                echo "<br>";
+                echo "This is one of the objects!";
+                echo "<br> <br>";
                 break;
 
             case 'F':
                 unset($item);
                 $item = new furniture($row["sku"], $row["name"], $row["price"], $row["h"], $row["w"], $row["l"]);
                 $item->print();
+                echo "<br>";
+                echo "This is one of the objects!";
+                echo "<br> <br>";
                 break;
         }
     }
@@ -124,18 +143,7 @@ else echo "You don't have nothing to output";
 
         <div class="productGrid">
             <div class="product">
-                <?php
-                    $selectDvds = "SELECT products.sku, products.name, products.price, dvd_attr.size 
-                    FROM products WHERE type=d
-                    JOIN dvd_attr ON products.sku=dvd_attr.sku";
-                    $result = $db->query($selectDvds);
-                    if($result->num_rows >0) {
-                        while($row = $result->fetch_assoc()) {
-                            echo "sku: " . $row["sku"] . " name: " . $row["name"] . " price: " . $row["price"] . " size: " . $row["size"] . "<br>";
-                        }
-                    }
-                    else echo "You don't have dvd's";
-                ?>
+
             </div>
         </div> 
     </body>
