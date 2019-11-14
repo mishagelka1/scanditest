@@ -16,12 +16,12 @@
             </div>
 
             <form id="form" method="POST" class="addForm" action="./validate.php">
-                <p>SKU (must be exactly 8 numbers long)</p> 
-                <input class="attr" type="text" name="sku" placeholder="SKU">
+                <p>SKU (must be exactly 8 characters long)</p> 
+                <input onchange="validator_s()" class="attr" type="text" name="sku" placeholder="SKU">
                 <p>Name (must contain only letters)</p> 
-                <input class="attr" type="text" name="name" placeholder="Name">
+                <input onchange="validator_n()" class="attr" type="text" name="name" placeholder="Name">
                 <p>Price (can contain only 2 numbers after comma)</p>
-                <input class="attr" type="text" name="price" placeholder="Price">
+                <input onchange="validator_p()" class="attr" type="text" name="price" placeholder="Price">
 
                 <p>Type switcher</p>
                 <select onchange="dynamicChange()" class="attr" name="productType" id="switch">

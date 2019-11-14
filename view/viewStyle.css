@@ -13,19 +13,19 @@
 }
 
 .productGrid {
-  color: cornsilk;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   max-width: 1400px;
   text-align: center;
+  align-content: flex-start;
   margin: auto;
 }
 
 
 .product {
-    background-color: #000000bc;
-    flex: 25%;
+    border: black;
+    flex: 33%;
     margin: 1px;
     max-width: 33%;
 }

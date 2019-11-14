@@ -89,9 +89,71 @@
  }
  
  // Experiment for dynamic - result = success!
+
+
+function validator_s() {
+    var skuChecker = document.getElementsByName("sku")[0];
+
+    if (skuChecker.value.length != 8) { 
+        skuChecker.style.borderColor= "red";
+        return false;
+    }
+    else {
+        skuChecker.style.borderColor = "green";
+        return true;
+    } 
+}
+
+function validator_n() {
+    var nameChecker = document.getElementsByName("name")[0];
+    if(/^[a-zA-Z]+$/.test(nameChecker.value) == false) {
+        nameChecker.style.borderColor = "red";
+        return false;
+    }
+    else nameChecker.style.borderColor = "green";
+    return true;
+}
+
+function validator_p() {
+    var priceChecker = document.getElementsByName("price")[0];
+    var hasComma = false;
+    var afterComma = 0;
+
+    for (let symb of priceChecker.value) {
+        if (hasComma) afterComma++;
+        if (symb == '.') hasComma = true;
+    }
+    
+    if (hasComma) {
+        if ((afterComma > 2) || (isNaN(priceChecker.value))) {
+            priceChecker.style.borderColor = "red";  
+            return false;                     
+        }
+        else {
+            priceChecker.style.borderColor = "green";
+            return true;
+        } 
+        
+    }
+    else if (isNaN(priceChecker.value)) { 
+        priceChecker.style.borderColor = "red";
+        return false;
+
+    } 
+    else  {
+        priceChecker.style.borderColor = "green";
+        return true;
+    }
+}    
+
+
+
+
  function dynamicChange() {
 
     var form = document.getElementById("form"); // to access form elements
+
+
 
 // This section removes element (by checking if it exists) if the type chosen is being changed 
     if(dvdUp) {
@@ -149,6 +211,8 @@ function submit() {
     var price = document.getElementsByName("price")[0];
     
     var correct = true;
+
+    if (!validator_n() || !validator_p() || !validator_s()) correct = false;
 
     var text_elem = document.getElementsByClassName("attr");
     for (let i = 0; i < text_elem.length; i++) {

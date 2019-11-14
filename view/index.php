@@ -1,3 +1,32 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Product view</title>
+        <link rel="stylesheet" href="viewStyle.css" />
+    </head>
+    <body>
+        <div class="topbar">
+            <h2>Product List</h2>
+
+            <div class="topRight">
+                <form>
+                    <select class="topElem" id="switch">
+                        <option style="display:none"></option>
+                        <option value="dvd">DVD</option>
+                        <option value="book">Book</option>
+                        <option value="furniture">Furniture</option>
+                    </select>
+                </form>
+                <button class="topElem" id="applyBtn">Apply</button>      
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="productGrid">
+
+
 <?php
 
 $db = new mysqli('localhost', 'root', '', 'scanditest')
@@ -82,29 +111,55 @@ if ($result->num_rows >0) {
                     <?php
                     $item->print();
                     ?>
+
                 </div>
-                $item->print();
-                echo "<br>";
-                echo "This is one of the objects!";
-                echo "<br> <br>";
+
+                <?php
+                // $item->print();
+                // echo "<br>";
+                // echo "This is one of the objects!";
+                // echo "<br> <br>";
                 break;
             
             case 'B':
                 unset($item);
                 $item = new book($row["sku"], $row["name"], $row["price"], $row["weight"]);
+                ?>
+                <div class="product">
+                
+                <?php
                 $item->print();
-                echo "<br>";
-                echo "This is one of the objects!";
-                echo "<br> <br>";
+                ?>
+
+                </div>
+
+                <?php
+
+                // $item->print();
+                // echo "<br>";
+                // echo "This is one of the objects!";
+                // echo "<br> <br>";
                 break;
 
             case 'F':
                 unset($item);
                 $item = new furniture($row["sku"], $row["name"], $row["price"], $row["h"], $row["w"], $row["l"]);
+                ?>
+                <div class="product">
+                
+                <?php
                 $item->print();
-                echo "<br>";
-                echo "This is one of the objects!";
-                echo "<br> <br>";
+                ?>
+
+
+                </div>
+
+                <?php
+
+                // $item->print();
+                // echo "<br>";
+                // echo "This is one of the objects!";
+                // echo "<br> <br>";
                 break;
         }
     }
@@ -115,36 +170,6 @@ else echo "You don't have nothing to output";
 
 ?>
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Product view</title>
-        <link rel="stylesheet" href="viewStyle.css" />
-    </head>
-    <body>
-        <div class="topbar">
-            <h2>Product List</h2>
-
-            <div class="topRight">
-                <form>
-                    <select class="topElem" id="switch">
-                        <option style="display:none"></option>
-                        <option value="dvd">DVD</option>
-                        <option value="book">Book</option>
-                        <option value="furniture">Furniture</option>
-                    </select>
-                </form>
-                <button class="topElem" id="applyBtn">Apply</button>      
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="productGrid">
-            <div class="product">
-
-            </div>
         </div> 
     </body>
 </html>

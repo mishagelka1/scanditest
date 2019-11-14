@@ -32,15 +32,15 @@ class Validator {
     static public function price($price) {
         $priceChar = str_split($price);
         $hasComma = false;
-        foreach ($priceChar as $symbol) if ($symbol == '.') $hasComma = true;
-        if ($hasComma) {
-            $commapos = strlen($price) - 3;
-            if (is_numeric($price) && ($price[$commapos] == '.') && (strlen($price) < 10 )) (float) $price; // return??
-            else throw new price\correctSymbols();
+        $afterComma = 0;
+
+        foreach ($priceChar as $symbol) {
+            if ($hasComma) $afterComma++;
+            if ($symbol == '.') $hasComma = true;
         }
-        else {
-           (float) $price; //return??
-        }
+        
+        if (($afterComma > 2) || (is_nan($price)) || (strlen($price) > 10)) throw new price\correctSymbols();  
+    
     }
 
 
