@@ -1,3 +1,13 @@
+h1 {
+    font-size: 2.5em;
+}
+
+.ch {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
 .topRight {
     display: flex;
     flex-direction: row;
@@ -16,18 +26,21 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  max-width: 1400px;
   text-align: center;
   align-content: flex-start;
   margin: auto;
+  font-size: 1.5em;
 }
 
 
 .product {
-    border: black;
-    flex: 33%;
     margin: 1px;
+    align-self: auto;
+    flex: 33%;
     max-width: 33%;
+    border: 1px solid black;
+    padding-bottom: 3%;
+    padding-top: 3%;
 }
 
 .topbar {

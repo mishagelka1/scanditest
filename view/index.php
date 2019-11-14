@@ -1,32 +1,3 @@
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Product view</title>
-        <link rel="stylesheet" href="viewStyle.css" />
-    </head>
-    <body>
-        <div class="topbar">
-            <h2>Product List</h2>
-
-            <div class="topRight">
-                <form>
-                    <select class="topElem" id="switch">
-                        <option style="display:none"></option>
-                        <option value="dvd">DVD</option>
-                        <option value="book">Book</option>
-                        <option value="furniture">Furniture</option>
-                    </select>
-                </form>
-                <button class="topElem" id="applyBtn">Apply</button>      
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="productGrid">
-
-
 <?php
 
 $db = new mysqli('localhost', 'root', '', 'scanditest')
@@ -75,7 +46,7 @@ class book extends Item {
 }
 
 class furniture extends Item {
-    public $h, $w, $l; // is this ok public?
+    public $h, $w, $l;
     function __construct($i_sku, $i_name, $i_price, $i_h, $i_w, $i_l) {
         parent::__construct($i_sku, $i_name, $i_price);
         $this->h = $i_h;
@@ -89,7 +60,69 @@ class furniture extends Item {
         echo "Dimensions: " . $this->h . "x" . $this->w . "x" . $this->l;
     }
 }
+?>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Product view</title>
+        <link rel="stylesheet" href="viewStyle.css" />
+    </head>
+    <body>
+        <div class="topbar">
+            <h1> <strong>Product List</strong></h1>
+
+            <div class="topRight">
+                <form>
+                    <select class="topElem" id="switch">
+                        <option style="display:none"></option>
+                        <option value="dvd">DVD</option>
+                        <option value="book">Book</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="all">All</option>
+                    </select>
+                </form>
+                <button class="topElem" id="applyBtn">Apply</button>      
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="productGrid">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
 $selectAll = "SELECT products.*, dvd_attr.*, book_attr.*, furniture_attr.* FROM products
 LEFT OUTER JOIN dvd_attr ON products.sku = dvd_attr.sku_d
 LEFT OUTER JOIN book_attr ON products.sku = book_attr.sku_b
@@ -107,6 +140,7 @@ if ($result->num_rows >0) {
 
 
                 <div class="product">
+                    <input type="checkbox" name="check" class="ch">
 
                     <?php
                     $item->print();
@@ -115,10 +149,7 @@ if ($result->num_rows >0) {
                 </div>
 
                 <?php
-                // $item->print();
-                // echo "<br>";
-                // echo "This is one of the objects!";
-                // echo "<br> <br>";
+
                 break;
             
             case 'B':
@@ -126,7 +157,8 @@ if ($result->num_rows >0) {
                 $item = new book($row["sku"], $row["name"], $row["price"], $row["weight"]);
                 ?>
                 <div class="product">
-                
+                    <input type="checkbox" name="check" class="ch">
+
                 <?php
                 $item->print();
                 ?>
@@ -134,11 +166,6 @@ if ($result->num_rows >0) {
                 </div>
 
                 <?php
-
-                // $item->print();
-                // echo "<br>";
-                // echo "This is one of the objects!";
-                // echo "<br> <br>";
                 break;
 
             case 'F':
@@ -146,6 +173,7 @@ if ($result->num_rows >0) {
                 $item = new furniture($row["sku"], $row["name"], $row["price"], $row["h"], $row["w"], $row["l"]);
                 ?>
                 <div class="product">
+                    <input type="checkbox" name="check" class="ch"> 
                 
                 <?php
                 $item->print();
@@ -155,20 +183,17 @@ if ($result->num_rows >0) {
                 </div>
 
                 <?php
-
-                // $item->print();
-                // echo "<br>";
-                // echo "This is one of the objects!";
-                // echo "<br> <br>";
                 break;
         }
     }
 }
 else echo "You don't have nothing to output";
 
-
-
 ?>
+
+
+
+
 
         </div> 
     </body>

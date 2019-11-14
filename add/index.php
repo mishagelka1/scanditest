@@ -20,7 +20,7 @@
                 <input onchange="validator_s()" class="attr" type="text" name="sku" placeholder="SKU">
                 <p>Name (must contain only letters)</p> 
                 <input onchange="validator_n()" class="attr" type="text" name="name" placeholder="Name">
-                <p>Price (can contain only 2 numbers after comma)</p>
+                <p>Price (can contain only 2 numbers after comma (.))</p>
                 <input onchange="validator_p()" class="attr" type="text" name="price" placeholder="Price">
 
                 <p>Type switcher</p>
