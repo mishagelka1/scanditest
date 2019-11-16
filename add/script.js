@@ -1,21 +1,12 @@
-/*function handleInput(textField) {
-    if (textField.value == "") {
-        textField.style.backgroundColor = "red";
-        return false;
-    }
-    else {
-        textField.style.backgroundColor = "white";
-        return true;
-    }
-} */
 
  var errorMessageUp = false;
  var dvdUp = false;
  var bookUp = false;
  var furnitureUp = false;
 
+//global variables to check if dunamic objects appear on the page
 
- function dvdBoxUp() { // function to display dvd inputbox
+ function dvdBoxUp() { // function to display dvd input text and the inputbox 
     dvdUp = true;
     var dvdInput = document.getElementById("form");
     var dvdBox = document.createElement("input");
@@ -27,12 +18,13 @@
     dvdBox.type = "text";
     dvdBox.name = "size";
     dvdBox.className = "attr";
+    dvdBox.onchange="validator_dynamic()";
 
     dvdInput.appendChild(dvdText);
     dvdInput.appendChild(dvdBox);
  }
 
- function bookBoxUp() { // function to display book inputbox
+ function bookBoxUp() { // function to display book input text and the inputbox
     bookUp = true;
     var bookInput = document.getElementById("form")
     var bookBox = document.createElement("input");
@@ -44,12 +36,13 @@
     bookBox.type = "text";
     bookBox.name = "weight";
     bookBox.className = "attr";
+    bookBox.onchange = "validator_dynamic()";
 
     bookInput.appendChild(bookText);
     bookInput.appendChild(bookBox);
  }
 
- function furnitureBoxUp() {
+ function furnitureBoxUp() { // function to display furniture input text and the inputbox
     furnitureUp = true;
     var furnitureInput = document.getElementById("form")
     var furnitureBoxH = document.createElement("input");
@@ -80,6 +73,10 @@
     furnitureBoxW.className = "attr";
     furnitureBoxL.className = "attr";
     //
+    furnitureBoxH.onchange="validator_dynamic()";
+    furnitureBoxW.onchange="validator_dynamic()";
+    furnitureBoxL.onchange="validator_dynamic()";
+    //
     furnitureInput.appendChild(furnitureTextH);
     furnitureInput.appendChild(furnitureBoxH);
     furnitureInput.appendChild(furnitureTextW);
@@ -90,7 +87,7 @@
  
  // Experiment for dynamic - result = success!
 
-
+ 
 function validator_s() {
     var skuChecker = document.getElementsByName("sku")[0];
 
@@ -147,6 +144,43 @@ function validator_p() {
 }    
 
 
+/*function validator_dynamic() {
+    if (dvdUp) var param = document.getElementsByName("size")[0];
+    if (bookUp) var param = document.getElementsByName("weight")[0];
+    var hasComma = false;
+    var afterComma = 0;
+
+    for (let symb of param.value) {
+        if (hasComma) afterComma++;
+        if (symb == '.') hasComma = true;
+    }
+    
+    if (hasComma) {
+        if ((afterComma > 2) || (isNaN(param.value))) {
+            param.style.borderColor = "red";  
+            return false;                     
+        }
+        else {
+            param.style.borderColor = "green";
+            return true;
+        } 
+        
+    }
+    else if (isNaN(param.value)) { 
+        param.style.borderColor = "red";
+        return false;
+
+    } 
+    else  {
+        param.style.borderColor = "green";
+        return true;
+    }
+}
+
+function validator_f() {
+    v
+}
+*/
 
 
  function dynamicChange() {

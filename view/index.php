@@ -13,7 +13,7 @@ class Item {
     }
 
     function print() {
-        echo "Sku: " . $this->sku . "<br>" . "Name: " . $this->name . "<br>" . "Price: " . $this->price . "<br>";
+        echo "Sku: " . $this->sku . " " . "<br>" . "Name: " . $this->name . "<br>" . "Price: " . $this->price . "<br>";
     }
 }
 
@@ -81,6 +81,7 @@ class furniture extends Item {
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="script.js"></script>
         <title>Product view</title>
         <link rel="stylesheet" href="viewStyle.css" />
     </head>
@@ -89,16 +90,17 @@ class furniture extends Item {
             <h1> <strong>Product List</strong></h1>
 
             <div class="topRight">
-                <form>
-                    <select class="topElem" id="switch">
+                <form method="POST" id="stuff" action="./removeRecords.php">
+                    <select onchange="checkboxes()" class="topElem" id="switch">
                         <option style="display:none"></option>
                         <option value="dvd">DVD</option>
                         <option value="book">Book</option>
                         <option value="furniture">Furniture</option>
                         <option value="all">All</option>
+                        <option value="deselect">Deselect all</option>
                     </select>
                 </form>
-                <button class="topElem" id="applyBtn">Apply</button>      
+                <button class="topElem" id="applyBtn" onclick="submit()">Remove records</button>      
             </div>
         </div>
 
@@ -140,7 +142,7 @@ if ($result->num_rows >0) {
 
 
                 <div class="product">
-                    <input type="checkbox" name="check" class="ch">
+                    <input type="checkbox" name="dvdC" class="ch">
 
                     <?php
                     $item->print();
@@ -157,7 +159,7 @@ if ($result->num_rows >0) {
                 $item = new book($row["sku"], $row["name"], $row["price"], $row["weight"]);
                 ?>
                 <div class="product">
-                    <input type="checkbox" name="check" class="ch">
+                    <input type="checkbox" name="bookC" class="ch">
 
                 <?php
                 $item->print();
@@ -172,8 +174,9 @@ if ($result->num_rows >0) {
                 unset($item);
                 $item = new furniture($row["sku"], $row["name"], $row["price"], $row["h"], $row["w"], $row["l"]);
                 ?>
+                
                 <div class="product">
-                    <input type="checkbox" name="check" class="ch"> 
+                    <input type="checkbox" name="furnC" class="ch"> 
                 
                 <?php
                 $item->print();
