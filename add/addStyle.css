@@ -18,6 +18,7 @@ html {
     width: 5em;
     font-size: 1.25em;
     margin-left: 4%;
+    margin-top: 2%;
 }
 
 p {
@@ -27,5 +28,11 @@ p {
 .topbar {
     margin-left: 4%;
     margin-top: 2%;
+}
+
+.errorMessage {
+    position: absolute;
+    top: 15%;
+    right: 15%;
 }
 

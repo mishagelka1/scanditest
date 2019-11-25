@@ -1,11 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+
+html {
+    font-family: 'Roboto Mono', monospace;
+    background-color: white;
+}
+
+
 h1 {
     font-size: 2.5em;
 }
 
+.SkuP {
+    display: inline;
+}
+
+.skuDiv {
+    display: inline;
+}
+
 .ch {
-    position: relative;
-    top: 0;
-    left: 0;
+    position: absolute;
+    top: 1.5em;
+    left: 1.5em;
+    height: 30px;
+    width: 30px;
 }
 
 .topRight {
@@ -17,6 +35,15 @@ h1 {
     padding-left: 40%;
 }
 
+#stuff {
+    margin-right: 13%;
+    height: auto;
+}
+
+#applyBtn {
+    height: auto;
+}
+
     
 .topElem {
     padding: 0px 24px;
@@ -25,7 +52,7 @@ h1 {
 .productGrid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   text-align: center;
   align-content: flex-start;
   margin: auto;
@@ -34,6 +61,7 @@ h1 {
 
 
 .product {
+    position: relative;
     margin: 1px;
     align-self: auto;
     flex: 33%;

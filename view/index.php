@@ -1,23 +1,27 @@
 <?php
 
-$db = new mysqli('localhost', 'root', '', 'scanditest')
-or die("Fekd up");
+$db = new mysqli('localhost', 'root', '', 'scanditest') // connection to the database
+or die("U failed"); 
 
  
 class Item {
     protected $sku, $name, $price, $type;
-    function __construct($i_sku, $i_name, $i_price) {
+    function __construct($i_sku, $i_name, $i_price) { // constructor for the products
         $this->sku = $i_sku;
         $this->name = $i_name;
         $this->price = $i_price;
     }
 
-    function print() {
-        echo "Sku: " . $this->sku . " " . "<br>" . "Name: " . $this->name . "<br>" . "Price: " . $this->price . "<br>";
+    function print() { // Function to print common product attributes
+        echo "<br>" . "Name: " . $this->name . "<br>" . "Price: " . $this->price . "<br>";
+    }
+    
+    function printSku() { // function to print only product's sku
+        echo $this->sku;
     }
 }
 
-class dvd extends Item {
+class dvd extends Item { // subclass that adds a dvd attribute to the object
     public $size;
     function __construct($i_sku, $i_name, $i_price, $i_size) {
         parent::__construct($i_sku, $i_name, $i_price);
@@ -31,7 +35,7 @@ class dvd extends Item {
     }
 }
 
-class book extends Item {
+class book extends Item { // subclass that adds a furniture attribute to the object
     public $weight; 
     function __construct($i_sku, $i_name, $i_price, $i_weight) {
         parent::__construct($i_sku, $i_name, $i_price);
@@ -45,7 +49,7 @@ class book extends Item {
     }
 }
 
-class furniture extends Item {
+class furniture extends Item { // subclass that adds a furniture attributes to the object
     public $h, $w, $l;
     function __construct($i_sku, $i_name, $i_price, $i_h, $i_w, $i_l) {
         parent::__construct($i_sku, $i_name, $i_price);
@@ -90,7 +94,7 @@ class furniture extends Item {
             <h1> <strong>Product List</strong></h1>
 
             <div class="topRight">
-                <form method="POST" id="stuff" action="./removeRecords.php">
+                <form id="stuff">
                     <select onchange="checkboxes()" class="topElem" id="switch">
                         <option style="display:none"></option>
                         <option value="dvd">DVD</option>
@@ -100,7 +104,14 @@ class furniture extends Item {
                         <option value="deselect">Deselect all</option>
                     </select>
                 </form>
-                <button class="topElem" id="applyBtn" onclick="submit()">Remove records</button>      
+                <button class="topElem" id="applyBtn" onclick="submit()">Remove records</button>
+                <button class="topElem" id="goHome">Home</button>
+                <script type="text/javascript">
+                    // a button that is there for navigation purposes
+                    document.getElementById("goHome").onclick = function () {
+                    location.href = "/";
+                    };
+                </script>      
             </div>
         </div>
 
@@ -134,18 +145,20 @@ $result=$db->query($selectAll);
 if ($result->num_rows >0) {
     while($row = $result->fetch_assoc()) {
 
-        switch ($row["type"]) {
+        switch ($row["type"]) { // depending on the type of the returned object, the corresponding elements are being created
             case 'D':
                 unset($item);
                 $item = new dvd($row["sku"], $row["name"], $row["price"], $row["size"]);
                 ?>
 
 
-                <div class="product">
-                    <input type="checkbox" name="dvdC" class="ch">
+                <div class="product" onclick="checkTheBox(this.childNodes[1])">
+                    <input type="checkbox" onclick="checkTheBox(this)" name="dvdC" class="ch">
+                    <p class="SkuP">Sku: </p>
+                    <div class="skuDiv"><?php $item->printSku()  //I decided to print the sku separately, for it to be easier to find later?></div>
 
                     <?php
-                    $item->print();
+                    $item->print(); // here the rest of the product is printed
                     ?>
 
                 </div>
@@ -158,8 +171,10 @@ if ($result->num_rows >0) {
                 unset($item);
                 $item = new book($row["sku"], $row["name"], $row["price"], $row["weight"]);
                 ?>
-                <div class="product">
-                    <input type="checkbox" name="bookC" class="ch">
+                <div class="product" onclick="checkTheBox(this.childNodes[1])">
+                    <input type="checkbox" onclick="checkTheBox(this)" name="bookC" class="ch">
+                    <p class="skuP">Sku: </p>
+                    <div class="skuDiv"><?php $item->printSku() ?></div>
 
                 <?php
                 $item->print();
@@ -175,8 +190,10 @@ if ($result->num_rows >0) {
                 $item = new furniture($row["sku"], $row["name"], $row["price"], $row["h"], $row["w"], $row["l"]);
                 ?>
                 
-                <div class="product">
-                    <input type="checkbox" name="furnC" class="ch"> 
+                <div class="product" onclick="checkTheBox(this.childNodes[1])">
+                    <input type="checkbox" onclick="checkTheBox(this)" name="furnC" class="ch">
+                    <p class="skuP">Sku: </p>
+                    <div class="skuDiv"><?php $item->printSku() ?></div> 
                 
                 <?php
                 $item->print();
@@ -199,5 +216,6 @@ else echo "You don't have nothing to output";
 
 
         </div> 
+        <div id="artificialForm"><!-- This div is used for the mass delete action purposes. Here, the artifficial form is created and posted to the database with a delete action --> </div>
     </body>
 </html>

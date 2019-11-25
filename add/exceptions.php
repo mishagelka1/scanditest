@@ -1,5 +1,7 @@
 <?php
 
+// here are messages for custom exceptions for extra php validation
+
 namespace sku {
     class characterAmount extends \Exception {
         public function errorMessage() {
@@ -18,11 +20,6 @@ namespace name {
     class characterAmount extends \Exception {
         public function errorMessage() {
             return "Name is less than 30 characters long!";
-        }
-    }
-    class correctSymbols extends \Exception {
-        public function errorMessage() {
-            return "You must use only letters!";
         }
     }
 }
@@ -59,24 +56,4 @@ namespace weight {
         }
     }
 }
-
-
-namespace dims {
-
-    class correctSymbols extends \Exception {
-        public function errorMessage() {
-            return "Dimension is a decimal number and cannot be longer than 5 symbols!";
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
 ?>

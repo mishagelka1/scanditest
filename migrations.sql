@@ -1,53 +1,36 @@
 CREATE TABLE products(
-    sku char(8) PRIMARY KEY NOT NULL,
+    sku char(8) NOT NULL,
+    PRIMARY KEY (sku),
     name varchar(30) NOT NULL,
     price decimal(10,2) NOT NULL,
     type char(1) NOT NULL
     );
 CREATE TABLE dvd_attr(
-    sku_d char(8) PRIMARY KEY NOT NULL,
+    sku_d char(8) NOT NULL,
+    PRIMARY KEY (sku_d),
     size decimal(10,2) NOT NULL,
-    FOREIGN KEY (sku_d) REFERENCES products(sku)
+    FOREIGN KEY (sku_d) REFERENCES products(sku) ON DELETE CASCADE
     );
 CREATE TABLE book_attr(
-    sku_b char(8) PRIMARY KEY NOT NULL,
+    sku_b char(8) NOT NULL,
+    PRIMARY KEY (sku_b),
     weight decimal(10,2) NOT NULL,
-    FOREIGN KEY (sku_b) REFERENCES products(sku)
+    FOREIGN KEY (sku_b) REFERENCES products(sku) ON DELETE CASCADE
     );
 CREATE TABLE furniture_attr(
-    sku_f char(8) PRIMARY KEY NOT NULL,
+    sku_f char(8) NOT NULL,
+    PRIMARY KEY (sku_f),
     h decimal(5,2) NOT NULL,
     w decimal(5,2) NOT NULL,
     l decimal(5,2) NOT NULL,
-    FOREIGN KEY (sku_f) REFERENCES products(sku)
+    FOREIGN KEY (sku_f) REFERENCES products(sku) ON DELETE CASCADE
     )
 
-/*
-CREATE TABLE products(
-    sku char(8) PRIMARY KEY NOT NULL,
-    name varchar(30) NOT NULL,
-    price decimal(10,2) NOT NULL,
-    type char(1) NOT NULL
-    );
-CREATE TABLE dvd_attr(
-    sku char(8) PRIMARY KEY NOT NULL,
-    size decimal(10,2) NOT NULL,
-    FOREIGN KEY (sku) REFERENCES products(sku)
-    );
-CREATE TABLE book_attr(
-    sku_b char(8) PRIMARY KEY NOT NULL,
-    weight decimal(10,2) NOT NULL,
-    FOREIGN KEY (sku) REFERENCES products(sku)
-    );
-CREATE TABLE furniture_attr(
-    sku char(8) PRIMARY KEY NOT NULL,
-    h decimal(5,2) NOT NULL,
-    w decimal(5,2) NOT NULL,
-    l decimal(5,2) NOT NULL,
-    FOREIGN KEY (sku) REFERENCES products(sku)
-    )
-*/
 
+-- Removing elements fron database
+-- DELETE products, dvd_attr FROM products
+-- LEFT OUTER JOIN dvd_attr ON products.sku = dvd_attr.sku_d
+-- WHERE sku IN ('');
 
 
 

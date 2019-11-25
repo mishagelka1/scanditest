@@ -1,4 +1,5 @@
 <?php
+// This code is used to validate the data and submit it to the database
 
 include "exceptions.php";
 use sku as sku;
@@ -10,7 +11,7 @@ use weight as weight;
 use dims as dims;
 
 
-class Validator {
+class Validator { // this class validates the input fields and outputs an errormessage, if needed
     static public function sku($sku) {
         if (strlen($sku) != 8) throw new sku\characterAmount();
 
@@ -22,10 +23,6 @@ class Validator {
 
     static public function name($name) {
         if(strlen($name) > 30) throw new name\characterAmount();
-
-        for ($i=0; $i < strlen($name); $i++) { 
-            if(!ctype_alpha($name[$i])) throw new name\correctSymbols();
-        }      
     }
 
 
@@ -54,12 +51,8 @@ class Validator {
         foreach ($sizeChar as $symbol) if ($symbol == '.') $hasComma = true;
         if ($hasComma) {
             $commapos = strlen($size) - 3;
-            if (is_numeric($size) && ($size[$commapos] == '.') && (strlen($size) < 10 )) (float) $size; // return??
-            else throw new size\correctSymbols();
-        }
-        else {
-           (float) $size; //return?
-        }   
+            if (!is_numeric($size) && !($size[$commapos] == '.') && !(strlen($size) < 10 )) throw new size\correctSymbols();
+        }  
     }
 
     static public function weight ($weight) {
@@ -68,35 +61,15 @@ class Validator {
         foreach ($weightChar as $symbol) if ($symbol == '.') $hasComma = true;
         if ($hasComma) {
             $commapos = strlen($weight) - 3;
-            if (is_numeric($weight) && ($weight[$commapos] == '.') && (strlen($weight) < 10 )) (float) $weight; // return??
-            else throw new weight\correctSymbols();
-        }
-        else {
-           (float) $weight; //return?
-        }  
+            if (!is_numeric($weight) && !($weight[$commapos] == '.') && !(strlen($weight) < 10 )) throw new weight\correctSymbols();
+        } 
     }
-
-    static public function dims ($dims) {
-        $dimsChar = str_split($dims);
-        $hasComma = false;
-        foreach ($dimsChar as $symbol) if ($symbol == '.') $hasComma = true;
-        if ($hasComma) {
-            $commapos = strlen($dims) - 3;
-            if (is_numeric($dims) && ($dims[$commapos] == '.') && (strlen($dims) < 5 )) (float) $dims; // return??
-            else throw new dims\correctSymbols();
-        }
-        else {
-           (float) $dims; //return?
-        }  
-    }
-
-
 }
 
 
-class Item {
+class Item { // the most complicated part - logics to build classes with their attributes
     protected $sku, $name, $price, $type, $query, $secondary_query;
-    function __construct($i_sku, $i_name, $i_price) {
+    function __construct($i_sku, $i_name, $i_price) { // a constructor for all types of products and a common query
         $this->sku = $i_sku;
         $this->name = $i_name;
         $this->price = $i_price;
@@ -106,40 +79,39 @@ class Item {
     function post() {
         $db = new mysqli('localhost', 'root', '', 'scanditest') 
         or die('U fail!');
-
+// This block of code submiths the data to the database with the corresponding functions 
         $stmt = $db->prepare($this->query);
         $stmt->bind_param("ssds", $this->sku, $this->name, $this->price, $this->type);
         $stmt->execute();
         echo " You inserted main query ";
-
+// These blocks of code insert the secondary query to the corresponding secondary tables
         $stmt = $db->prepare($this->secondary_query);
         if ($_POST["productType"] == "dvd") {
             $stmt->bind_param("sd", $this->sku, $this->size);
             $stmt->execute();
-            echo "U inserted a dvd attr! ";
+            echo "U inserted a dvd attribute! ";
         }
         if ($_POST["productType"] == "book") {
             $stmt->bind_param("sd", $this->sku, $this->weight);
             $stmt->execute();
-            echo "U inserted a book attr! ";
+            echo "U inserted a book attribute! ";
         }
         if ($_POST["productType"] == "furniture") {
             $stmt->bind_param("sddd", $this->sku, $this->h, $this->w, $this->l);
             $stmt->execute();
-            echo "U inserted a furniture attr! ";
+            echo "U inserted a furniture attribute! ";
         }
 
-
         echo " Done";
-        require 'inserted.php';
+        require 'inserted.php'; // a webpage to navigate to /home, /add and /view
     }
-
 }
 
+// Here are subclasses that inherit from the main one. They add their special attribute
 class dvd extends Item {
-    public $size; // is this ok public?
+    public $size;
     function __construct($i_sku, $i_name, $i_price, $i_size) {
-        parent::__construct($i_sku, $i_name, $i_price);
+        parent::__construct($i_sku, $i_name, $i_price); // as you can see, the parent constructor is called first, then special attributes are ades
         $this->size = $i_size;
         $this->type = 'D'; 
         $this->secondary_query = "INSERT INTO dvd_attr (sku_d, size) VALUES (?, ?)";
@@ -150,7 +122,7 @@ class dvd extends Item {
 }
 
 class book extends Item {
-    public $weight; // is this ok public?
+    public $weight;
     function __construct($i_sku, $i_name, $i_price, $i_weight) {
         parent::__construct($i_sku, $i_name, $i_price);
         $this->weight = $i_weight;
@@ -163,7 +135,7 @@ class book extends Item {
 }
 
 class furniture extends Item {
-    public $h, $w, $l; // is this ok public?
+    public $h, $w, $l;
     function __construct($i_sku, $i_name, $i_price, $i_h, $i_w, $i_l) {
         parent::__construct($i_sku, $i_name, $i_price);
         $this->h = $i_h;
@@ -177,60 +149,38 @@ class furniture extends Item {
     }
 }
 
-function validate() {
+
+function validate() { // this function is always called and it validates the corresponding fields
     try {
         Validator::sku($_POST["sku"]);
         Validator::name($_POST["name"]);
         Validator::price($_POST["price"]);
         Validator::productType($_POST["productType"]);
         if ($_POST["productType"] == "dvd") Validator::size($_POST["size"]);
-        if ($_POST["productType"] == "book") Validator::weight($_POST["weight"]);
-       // if ($_POST["productType"] == "furniture") Validator::dims($_POST["dims"]); might correct later
-    } catch (sku\characterAmount | sku\correctSymbols | name\characterAmount | name\correctSymbols | price\correctSymbols | productType\isEmpty | size\correctSymbols | weight\correctSymbols | dims\correctSymbols $e) {
+        if ($_POST["productType"] == "book") Validator::weight($_POST["weight"]);   
+    } catch (sku\characterAmount | sku\correctSymbols | name\characterAmount | price\correctSymbols | productType\isEmpty | size\correctSymbols | weight\correctSymbols | dims\correctSymbols $e) {
+        // if an error is caught, the block of code below ensures that the page work will abort
         require 'index.php';
         $val_out = $e->errorMessage();
         echo htmlspecialchars($val_out);
-        die();
+        die(); 
     }
     $db = new mysqli('localhost', 'root', '', 'scanditest') 
     or die('U fail!');
 
-    $skuChecker = "SELECT sku FROM products";
-    $existingSku = $db->query($skuChecker);
-    if ($existingSku->num_rows > 0) {
-        while($row = $existingSku->fetch_assoc()) {
-            if($_POST["sku"] == $row["sku"]) {
-                require 'index.php';
-                echo "Whoops, this sku already is occupied!";
-                die();
-            }
-        }
+    // this block of code ensures that it is not possible to insert a product with a sku that already exists
+    $newitemsku = $_POST["sku"];
+    $skuChecker = "SELECT sku FROM products WHERE sku = \"$newitemsku\" LIMIT 1";
+    $skuexists = $db->query($skuChecker);
+    if ($skuexists->num_rows != 0) {
+        echo "Whoops, this sku is already occupied!";
+        require 'index.php';
+        die();
     } 
     $db->close();
 }
 
-function beautify() {
-    $price = $_POST['price'];
-    (float) $price;
-
-    if($_POST["productType"] == "dvd") {
-        $size = $_POST['size'];
-        (float) $size;
-    }
-    if($_POST["productType"] == "book") {
-        $weight = $_POST['weight'];
-        (float) $weight;
-    }
-    if($_POST["productType"] == "futniture") {
-        $h = $_POST['h'];
-        $w = $_POST['w'];
-        $l = $_POST['l'];
-        (float) $h;
-        (float) $w;
-        (float) $l;
-    }
-
-
+function beautify() { // this function applys the htmlspecialchars function to everything to pervent the sql injections
     $_POST['sku'] = htmlspecialchars($_POST['sku']);
     $_POST['name'] = htmlspecialchars($_POST['name']);
     $_POST['price'] = htmlspecialchars($_POST['price']);
@@ -245,11 +195,12 @@ function beautify() {
     }
 }
 
-validate();
 beautify();
+validate();
 
 
-switch ($_POST["productType"]) {
+
+switch ($_POST["productType"]) { // this block of code checks which type of the product was chosen, and creates it and posts to the database
     case "dvd": 
     $newItem = new dvd($_POST["sku"], $_POST["name"], $_POST["price"], $_POST["size"]);
     $newItem->post(); 

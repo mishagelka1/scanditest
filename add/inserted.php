@@ -1,5 +1,7 @@
 <?php
 
+// This page only exists for functional reasons, to navigate the user after the product has been inserted
+
 ?>
 
 <html>

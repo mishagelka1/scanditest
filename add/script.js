@@ -1,10 +1,10 @@
+// Global variables to check if dynamic objects appear on the page
+var errorMessageUp = false;
+var dvdUp = false;
+var bookUp = false;
+var furnitureUp = false;
 
- var errorMessageUp = false;
- var dvdUp = false;
- var bookUp = false;
- var furnitureUp = false;
-
-//global variables to check if dunamic objects appear on the page
+// These 3 functions generate input fields and thext above them
 
  function dvdBoxUp() { // function to display dvd input text and the inputbox 
     dvdUp = true;
@@ -18,7 +18,7 @@
     dvdBox.type = "text";
     dvdBox.name = "size";
     dvdBox.className = "attr";
-    dvdBox.onchange="validator_dynamic()";
+    dvdBox.setAttribute("onchange", "validator_dynamic()");
 
     dvdInput.appendChild(dvdText);
     dvdInput.appendChild(dvdBox);
@@ -36,7 +36,7 @@
     bookBox.type = "text";
     bookBox.name = "weight";
     bookBox.className = "attr";
-    bookBox.onchange = "validator_dynamic()";
+    bookBox.setAttribute("onchange", "validator_dynamic()");
 
     bookInput.appendChild(bookText);
     bookInput.appendChild(bookBox);
@@ -73,9 +73,9 @@
     furnitureBoxW.className = "attr";
     furnitureBoxL.className = "attr";
     //
-    furnitureBoxH.onchange="validator_dynamic()";
-    furnitureBoxW.onchange="validator_dynamic()";
-    furnitureBoxL.onchange="validator_dynamic()";
+    furnitureBoxH.setAttribute("onchange", "validator_dynamic()");
+    furnitureBoxW.setAttribute("onchange", "validator_dynamic()");
+    furnitureBoxL.setAttribute("onchange", "validator_dynamic()");
     //
     furnitureInput.appendChild(furnitureTextH);
     furnitureInput.appendChild(furnitureBoxH);
@@ -84,14 +84,22 @@
     furnitureInput.appendChild(furnitureTextL);
     furnitureInput.appendChild(furnitureBoxL);
  }
- 
- // Experiment for dynamic - result = success!
 
+// Javascript validation functions use 'this' field and then get their value. Depending on it, they either turn red or green
+
+ function validator_n() { // a function to check if the name field is not empty
+    var nameChecker = document.getElementsByName("name")[0];
+    if(nameChecker.value == "") {
+        nameChecker.style.borderColor = "red";
+        return false;
+    }
+    else nameChecker.style.borderColor = "green";
+    return true;
+}
  
 function validator_s() {
     var skuChecker = document.getElementsByName("sku")[0];
-
-    if (skuChecker.value.length != 8) { 
+    if (skuChecker.value.length != 8 ||skuChecker.value == "") { 
         skuChecker.style.borderColor= "red";
         return false;
     }
@@ -101,28 +109,18 @@ function validator_s() {
     } 
 }
 
-function validator_n() {
-    var nameChecker = document.getElementsByName("name")[0];
-    if(/^[a-zA-Z]+$/.test(nameChecker.value) == false) {
-        nameChecker.style.borderColor = "red";
-        return false;
-    }
-    else nameChecker.style.borderColor = "green";
-    return true;
-}
 
-function validator_p() {
+function validator_p() { // this function must ensure that number is not only a number, but also contains not more than 2 symbols after comma
     var priceChecker = document.getElementsByName("price")[0];
     var hasComma = false;
     var afterComma = 0;
-
-    for (let symb of priceChecker.value) {
+    for (let symb of priceChecker.value) { // if comma is in the value, it counts the number of symbols after it
         if (hasComma) afterComma++;
         if (symb == '.') hasComma = true;
     }
     
     if (hasComma) {
-        if ((afterComma > 2) || (isNaN(priceChecker.value))) {
+        if ((afterComma > 2) || (isNaN(priceChecker.value))) { // if the value isNaN and there are more than 2 symbols after comma, the window turns red
             priceChecker.style.borderColor = "red";  
             return false;                     
         }
@@ -132,7 +130,7 @@ function validator_p() {
         } 
         
     }
-    else if (isNaN(priceChecker.value)) { 
+    else if (isNaN(priceChecker.value) || priceChecker.value == "") { 
         priceChecker.style.borderColor = "red";
         return false;
 
@@ -142,46 +140,6 @@ function validator_p() {
         return true;
     }
 }    
-
-
-/*function validator_dynamic() {
-    if (dvdUp) var param = document.getElementsByName("size")[0];
-    if (bookUp) var param = document.getElementsByName("weight")[0];
-    var hasComma = false;
-    var afterComma = 0;
-
-    for (let symb of param.value) {
-        if (hasComma) afterComma++;
-        if (symb == '.') hasComma = true;
-    }
-    
-    if (hasComma) {
-        if ((afterComma > 2) || (isNaN(param.value))) {
-            param.style.borderColor = "red";  
-            return false;                     
-        }
-        else {
-            param.style.borderColor = "green";
-            return true;
-        } 
-        
-    }
-    else if (isNaN(param.value)) { 
-        param.style.borderColor = "red";
-        return false;
-
-    } 
-    else  {
-        param.style.borderColor = "green";
-        return true;
-    }
-}
-
-function validator_f() {
-    v
-}
-*/
-
 
  function dynamicChange() {
 
@@ -223,8 +181,8 @@ function validator_f() {
     }
 
 
-    var typeChosen = document.getElementById("switch");
-    var slctd = typeChosen.options[typeChosen.selectedIndex].value; //Checks which option is selected
+    var typeChosen = document.getElementById("switch"); // To get the value of the "select" element
+    var slctd = typeChosen.options[typeChosen.selectedIndex].value; //Checks which option is selected in the "select" element for special attribute
     if(slctd == "dvd") {
         dvdBoxUp();
     }
@@ -239,24 +197,15 @@ function validator_f() {
 
  }
 
-// End of experiment
 
-function submit() {
-    var price = document.getElementsByName("price")[0];
-    
+function submit() { // Function that validates the data and submits it after that
     var correct = true;
-
     if (!validator_n() || !validator_p() || !validator_s()) correct = false;
 
     var text_elem = document.getElementsByClassName("attr");
-    for (let i = 0; i < text_elem.length; i++) {
-        if (text_elem[i].value == "") {
-            text_elem[i].style.backgroundColor = "Coral";
-            correct = false;
-        }
-    }
 
-    if (isNaN(price.value)) {
+    var price = document.getElementsByName("price")[0];
+    if (isNaN(price.value) || price.value == "") {
         price.style.backgroundColor = "pink";
         correct = false;
     }
@@ -312,7 +261,7 @@ function submit() {
         errorMessageUp = true;
         return;
     }
-    else if(!correct && errorMessageUp == true) {
+    else if(!correct && errorMessageUp == true) { // this block removes an errormessage
         form.removeChild(errorMess);
         return;
     }
